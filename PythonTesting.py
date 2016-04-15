@@ -35,12 +35,16 @@ def save(object, filename, bin=1):
     finally:
         tempfile.close()
 
-root_path = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\1"
-#root_path = "C:\\Users\\cheung\\Desktop\\TestFolder\\1"
-#train_csv_path = "C:\\Users\\cheung\\Desktop\\TestFolder\\train.csv"
-train_csv_path = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\train.csv"
-train_label_csv = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\train-label.csv"
-#train_label_csv = "C:\\Users\\cheung\\Desktop\\TestFolder\\train-label.csv"
+#-----------BEC LAB-----------------
+#root_path = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\1"
+#train_csv_path = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\train.csv"
+#train_label_csv = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\train-label.csv"
+
+#------------Home------------------
+root_path = "C:\\Users\\cheung\\Desktop\\TestFolder\\1"
+train_csv_path = "C:\\Users\\cheung\\Desktop\\TestFolder\\train.csv"
+train_label_csv = "C:\\Users\\cheung\\Desktop\\TestFolder\\train-label.csv"
+
 #Frame refers to the file address, sort the file address and
 #based on the patients number
 def get_frames(root_path):
