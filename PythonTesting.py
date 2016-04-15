@@ -35,18 +35,35 @@ def save(object, filename, bin=1):
     finally:
         tempfile.close()
 
-#-----------BEC LAB-----------------
-#root_path = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\1"
-#train_csv_path = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\train.csv"
-#train_label_csv = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\train-label.csv"
+#-----------Home-----------------
+root_path = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\1"
+train_csv_path = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\train.csv"
+train_label_csv = "C:\\Users\\Zheng Zhang\\Desktop\\TestFolder\\train-label.csv"
 
-#------------Home------------------
-root_path = "C:\\Users\\cheung\\Desktop\\TestFolder\\1"
-train_csv_path = "C:\\Users\\cheung\\Desktop\\TestFolder\\train.csv"
-train_label_csv = "C:\\Users\\cheung\\Desktop\\TestFolder\\train-label.csv"
+#-----------BEC------------------
+#root_path = "C:\\Users\\cheung\\Desktop\\TestFolder\\1"
+#train_csv_path = "C:\\Users\\cheung\\Desktop\\TestFolder\\train.csv"
+#train_label_csv = "C:\\Users\\cheung\\Desktop\\TestFolder\\train-label.csv"
 
 #Frame refers to the file address, sort the file address and
 #based on the patients number
+
+def get_circles(img):       
+    v = np.median(img)
+    upper = int(min(255,(1.0 + 5) * v))
+    print("upper {}".format(upper))
+    i = 40
+
+    while True:
+        circles = cv2.HoughCircles(img,cv2.HOUGH_GRADIENT,1,50,param1=upper,param2=i,minRadius=0,maxRadius=40)
+        i -= 1
+        if circles is None:
+            pass
+        else:
+            circles = np.uint16(np.around(circles))
+
+    return circles
+
 def get_frames(root_path):
     i = 0
     t = 0
@@ -107,7 +124,7 @@ xmeanspacing = 1.25826490244
 ymeanspacing = 1.25826490244
 
 def crop_resize_other(img, pixelspacing):#normalize image
-        #----------------
+        #-------------------------------------
         #thresholdval = 20
         #r,g,b = img.splitChannels()
         #img = g.equalize().threshold(thresholdval).invert()
@@ -139,12 +156,10 @@ def crop_resize_other(img, pixelspacing):#normalize image
        
         return crop_img.astype("uint8")
         
-
         #--------------Show dicom image---------------
         #pylab.imshow(f.pixel_array,cmap=pylab.cm.bone)
         #pylab.show()
         #-------------------------------------------
-
 
 frames = get_frames(root_path)
 label_map = get_label_map(train_csv_path)
@@ -162,7 +177,6 @@ for lst in frames:
         pixelspacing = (PixelSpacingx, PixelSpacingy)    
         img = f.pixel_array.astype('uint8')
         #print f.PixelSpacing
-
         #print 'img: ',img
         #cv2.imshow('img',img)
         #cv2.waitKey()
@@ -173,32 +187,27 @@ for lst in frames:
         #cv2.waitKey()
         #print imglist
     for img in imglist:
-        v = np.median(img)
-        upper = int(min(255,(1.0 + 5) * v))
-        print("upper {}".format(upper))
-        i = 40
+        cir = get_circles(img)
+        circlesall.append(cir)
+        break
+    print "circlesall",circlesall 
+    break
+        
 
-        while True:
-            circles = cv2.HoughCircles(img,cv2.HOUGH_GRADIENT,1,50,param1=upper,param2=i,minRadius=0,maxRadius=40)
 
-            i -= 1
-            if circles is None:
-                pass
-            else:
-                circles = np.uint16(np.around(circles))
-                break
-
-    for i in circles[0,:]:
+    #----------------Show the image--------------------
+    #for i in circles[0,:]:
     # draw the outer circle
-        cv2.circle(img,(i[0],i[1]),i[2],(0,255,0),2)
+    #    cv2.circle(img,(i[0],i[1]),i[2],(0,255,0),2)
     # draw the center of the circle
-        cv2.circle(img,(i[0],i[1]),2,(0,0,255),3)
-    cv2.imshow('detected circles',img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #    cv2.circle(img,(i[0],i[1]),2,(0,0,255),3)
+    #cv2.imshow('detected circles',img)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
+    #---------------------------------------------------
     
 
-    break
+    
 
 
 
