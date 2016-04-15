@@ -193,7 +193,7 @@ for lst in frames:
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     
-    print 'circles ',circles
+
     break
 
 
